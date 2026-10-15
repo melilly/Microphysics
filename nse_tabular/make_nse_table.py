@@ -52,15 +52,15 @@ def make_nse_network():
                 Nucleus("s32"), Nucleus("ar36"), Nucleus("ca40"), Nucleus("sc43"),
                 Nucleus("al27"), Nucleus("p31"), Nucleus("cl35"), Nucleus("k39")]
 
-    nuc_list += pyna.get_nuclei_in_range(20, 20, 45, 48)  # Ca
-    nuc_list += pyna.get_nuclei_in_range(21, 21, 45, 49)  # Sc
-    nuc_list += pyna.get_nuclei_in_range(22, 22, 44, 52)  # Ti
-    nuc_list += pyna.get_nuclei_in_range(23, 23, 47, 54)  # V
-    nuc_list += pyna.get_nuclei_in_range(24, 24, 48, 56)  # Cr
-    nuc_list += pyna.get_nuclei_in_range(25, 25, 51, 58)  # Mn
-    nuc_list += pyna.get_nuclei_in_range(26, 26, 52, 60)  # Fe
-    nuc_list += pyna.get_nuclei_in_range(27, 27, 54, 61)  # Co
-    nuc_list += pyna.get_nuclei_in_range(28, 28, 56, 65)  # Ni
+    nuc_list += pyna.get_nuclei_in_range(name="Ca", A_range=(45, 48))
+    nuc_list += pyna.get_nuclei_in_range(name="Sc", A_range=(45, 49))
+    nuc_list += pyna.get_nuclei_in_range(name="Ti", A_range=(44, 52))
+    nuc_list += pyna.get_nuclei_in_range(name="V",  A_range=(47, 54))
+    nuc_list += pyna.get_nuclei_in_range(name="Cr", A_range=(48, 56))
+    nuc_list += pyna.get_nuclei_in_range(name="Mn", A_range=(51, 58))
+    nuc_list += pyna.get_nuclei_in_range(name="Fe", A_range=(52, 60))
+    nuc_list += pyna.get_nuclei_in_range(name="Co", A_range=(54, 61))
+    nuc_list += pyna.get_nuclei_in_range(name="Ni", A_range=(56, 65))
     nuc_list.append(Nucleus("cu59"))
     nuc_list.append(Nucleus("zn60"))
 
