@@ -75,14 +75,7 @@ def make_nse_network():
 
     # remove dupes
 
-    dupes = all_lib.find_duplicate_links()
-
-    rates_to_remove = []
-    for d in dupes:
-        rates_to_remove += [r for r in d if isinstance(r, pyna.rates.ReacLibRate)]
-
-    for r in rates_to_remove:
-        all_lib.remove_rate(r)
+    all_lib.eliminate_duplicates(rate_type_preference="tabular")
 
     # create the rate collection
 
@@ -140,12 +133,6 @@ def generate_table():
     #yes = np.linspace(0.43, 0.5, 8)
 
     output_header(Ts, rhos, yes)
-
-    mu_p0 = -3.5
-    mu_n0 = -15.0
-
-    mu_p = np.ones((len(rhos), len(yes)), dtype=np.float64) * mu_p0
-    mu_n = np.ones((len(rhos), len(yes)), dtype=np.float64) * mu_n0
 
     nse_net.generate_table(rho_values=rhos,
                            T_values=Ts,
