@@ -48,12 +48,46 @@ void init_nse() {
       amrex::Error("unable to open NSE table: " + nse_table_size::table_name);
   }
 
-  // skip the header -- it is 4 lines
+  // skip most of the header -- it is 4 lines, and the last describes the columns
   std::string line;
   std::getline(nse_table_file, line);
   std::getline(nse_table_file, line);
   std::getline(nse_table_file, line);
   std::getline(nse_table_file, line);
+
+  std::istringstream header(line);
+  std::string column_header;
+
+  for (int i = 0; i < 9; i++) {
+      header >> column_header;
+  }
+
+  std::array<int, NumSpec> specs_mapping;
+  for (int n = 0; n < NumSpec; n++) {
+      specs_mapping[n] = -1;
+  }
+  for (int n = 0; n < NumSpec; n++) {
+      header >> column_header;  // of the form "X(...)"
+      column_header = column_header.substr(2, column_header.length()-1);
+      int k = 0;
+      bool found = false;
+      for (auto first = short_spec_names_cxx.begin(); first != short_spec_names_cxx.last(); ++first) {
+          if (*first == column_header) {
+              specs_mapping[n] = k;
+              found = true;
+              break;
+          }
+          k++;
+      }
+      if (!found) {
+          amrex::Error("Species " + column_header + "found in NSE table but not in network.");
+      }
+  }
+  for (int n = 0; n < NumSpec; n++) {
+      if (specs_mapping[n] == -1) {
+          amrex::Error("Species #" + n + " found in network but not in NSE table.");
+      }
+  }
 
   for (int irho = 1; irho <= nse_table_size::nden; irho++) {
       for (int it = 1; it <= nse_table_size::ntemp; it++) {
@@ -81,7 +115,8 @@ void init_nse() {
                    >> nse_table::dbeadttab(j)
                    >> nse_table::enutab(j);
               for (int n = 1; n <= NumSpec; n++) {
-                  data >> nse_table::massfractab(n, j);
+                  data >> nse_table::massfractab(specs_mapping[n-1]+1, j);
+                  // switch from 0-indexing to 1-indexing
               }
               if (data.fail()) {
                   row_error("incomplete or invalid numeric data");
