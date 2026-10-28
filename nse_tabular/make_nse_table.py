@@ -99,6 +99,8 @@ def output_header(Ts, rhos, yes):
 
         nse_h.write("#include <string>\n\n")
 
+        nse_h.write("using namespace amrex::literals;\n\n")
+
         nse_h.write("namespace nse_table_size {\n\n")
 
         nse_h.write('    const std::string table_name{"nse.tbl"};\n\n')

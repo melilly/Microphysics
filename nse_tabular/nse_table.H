@@ -71,7 +71,7 @@ void init_nse() {
       column_header = column_header.substr(2, column_header.length()-1);
       int k = 0;
       bool found = false;
-      for (auto first = short_spec_names_cxx.begin(); first != short_spec_names_cxx.last(); ++first) {
+      for (auto first = short_spec_names_cxx.begin(); first != short_spec_names_cxx.end(); ++first) {
           if (*first == column_header) {
               specs_mapping[n] = k;
               found = true;
@@ -85,7 +85,7 @@ void init_nse() {
   }
   for (int n = 0; n < NumSpec; n++) {
       if (specs_mapping[n] == -1) {
-          amrex::Error("Species #" + n + " found in network but not in NSE table.");
+          amrex::Error("Species #" + std::to_string(n) + " found in network but not in NSE table.");
       }
   }
 
