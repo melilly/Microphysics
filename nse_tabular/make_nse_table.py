@@ -15,27 +15,11 @@ def get_aprox19_comp(comp):
     # and the other is H that participates in H-burning.  We need to
     # to add H1 with zero abundance in our return
 
-    # we also want to preserve the order that aprox19 uses
-    X = []
-    X.append(("H1", 0.0))
-    X.append(("He3", reduced_comp.X[Nucleus("he3")]))
-    X.append(("He4", reduced_comp.X[Nucleus("he4")]))
-    X.append(("C12", reduced_comp.X[Nucleus("c12")]))
-    X.append(("N14", reduced_comp.X[Nucleus("n14")]))
-    X.append(("O16", reduced_comp.X[Nucleus("o16")]))
-    X.append(("Ne20", reduced_comp.X[Nucleus("ne20")]))
-    X.append(("Mg24", reduced_comp.X[Nucleus("mg24")]))
-    X.append(("Si28", reduced_comp.X[Nucleus("si28")]))
-    X.append(("S32", reduced_comp.X[Nucleus("s32")]))
-    X.append(("Ar36", reduced_comp.X[Nucleus("ar36")]))
-    X.append(("Ca40", reduced_comp.X[Nucleus("ca40")]))
-    X.append(("Ti44", reduced_comp.X[Nucleus("ti44")]))
-    X.append(("Cr48", reduced_comp.X[Nucleus("cr48")]))
-    X.append(("Fe52", reduced_comp.X[Nucleus("fe52")]))
-    X.append(("Fe54", reduced_comp.X[Nucleus("fe54")]))
-    X.append(("Ni56", reduced_comp.X[Nucleus("ni56")]))
-    X.append(("n", reduced_comp.X[Nucleus("n")]))
-    X.append(("p", reduced_comp.X[Nucleus("p")]))
+    # we also want to preserve the order that aprox19 uses, with H1 first, and n and p last
+    X = {}
+    X["H1"] = 0.0
+    for nuc, comp in reduced_comp.items():
+        X[nuc] = comp
 
     return X
 
@@ -138,6 +122,7 @@ def generate_table():
                            T_values=Ts,
                            Ye_values=yes,
                            comp_reduction_func=get_aprox19_comp,
+                           sort_reduced_comp=False,
                            verbose=True)
 
 if __name__ == "__main__":
