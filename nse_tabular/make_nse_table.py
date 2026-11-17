@@ -28,42 +28,12 @@ def make_nse_network():
 
     # list of nuclei we care about
 
-    nuc_list = [Nucleus("n"), Nucleus("p"), Nucleus("d"),
-                Nucleus("he3"), Nucleus("he4"), Nucleus("c12"), Nucleus("o16"),
-                Nucleus("n13"), Nucleus("n14"), Nucleus("f18"),
-                Nucleus("ne20"), Nucleus("ne21"), Nucleus("ne22"),
-                Nucleus("na23"), Nucleus("mg24"), Nucleus("si28"),
-                Nucleus("s32"), Nucleus("ar36"), Nucleus("ca40"), Nucleus("sc43"),
-                Nucleus("al27"), Nucleus("p31"), Nucleus("cl35"), Nucleus("k39")]
+    nuc_list = ["n", "p", "d", "he3-4", "c12", "o16", "n13-14", "f18", "ne20", "ne21-22",
+                "na23", "mg24", "si28", "s32", "ar36", "ca40", "sc43", "al27", "p31",
+                "cl35", "k39", "ca45-48", "sc45-49", "ti44-52", "v47-54", "cr48-56", 
+                "mn51-58", "fe52-60", "co54-61", "ni56-65", "cu59", "zn60"]
 
-    nuc_list += pyna.get_nuclei_in_range(name="Ca", A_range=(45, 48))
-    nuc_list += pyna.get_nuclei_in_range(name="Sc", A_range=(45, 49))
-    nuc_list += pyna.get_nuclei_in_range(name="Ti", A_range=(44, 52))
-    nuc_list += pyna.get_nuclei_in_range(name="V",  A_range=(47, 54))
-    nuc_list += pyna.get_nuclei_in_range(name="Cr", A_range=(48, 56))
-    nuc_list += pyna.get_nuclei_in_range(name="Mn", A_range=(51, 58))
-    nuc_list += pyna.get_nuclei_in_range(name="Fe", A_range=(52, 60))
-    nuc_list += pyna.get_nuclei_in_range(name="Co", A_range=(54, 61))
-    nuc_list += pyna.get_nuclei_in_range(name="Ni", A_range=(56, 65))
-    nuc_list.append(Nucleus("cu59"))
-    nuc_list.append(Nucleus("zn60"))
-
-    # create the library
-
-    tl = pyna.TabularLibrary()
-    rl = pyna.ReacLibLibrary()
-    tlib = tl.linking_nuclei(nuc_list)
-    rlib = rl.linking_nuclei(nuc_list)
-
-    all_lib = rlib + tlib
-
-    # remove dupes
-
-    all_lib.eliminate_duplicates(rate_type_preference="tabular")
-
-    # create the rate collection
-
-    rc = pyna.NSENetwork(libraries=[all_lib])
+    rc = network_helper(nuc_list, use_detailed_balance=False, network_type="nse")
 
     return rc
 
